@@ -1,0 +1,106 @@
+[
+{
+	"uri": "/vi/",
+	"title": "Hệ thống bảo mật dữ liệu tự động với AWS KMS, Macie và EventBridge",
+	"tags": [],
+	"description": "",
+	"content": "Hệ thống bảo mật dữ liệu tự động với AWS KMS, Macie và EventBridge Tổng quan Trong bài lab này, bạn sẽ tìm hiểu các khái niệm cơ bản và thực hành về AWS KMS, Macie và EventBridge Nội dung Giới thiệu Các bước chuẩn bị Dùng Event Bridge để kết nối với SNS và Lambda Kiểm thử tính năng dùng Lambda kích hoạt KMS mã hóa Dọn dẹp tài nguyên "
+},
+{
+	"uri": "/vi/1-introduce/",
+	"title": "Giới thiệu",
+	"tags": [],
+	"description": "",
+	"content": "Hệ thống bảo mật dữ liệu tự động với AWS KMS, Macie và EventBridge là một giải pháp sử dụng các dịch vụ AWS như KMS, Macie, và EventBridge để quản lý và bảo mật dữ liệu một cách toàn diện. Hệ thống này cung cấp các tính năng hiện đại nhằm đảm bảo an toàn cho dữ liệu và tự động hóa quy trình quản lý bảo mật. Hệ thống bảo mật dữ liệu sử dụng AWS KMS, Macie, EventBridge giúp bảo vệ và quản lý dữ liệu tự động. Dữ liệu được tải lên S3, mã hóa bằng KMS và quét bởi Macie để phát hiện thông tin nhạy cảm. Khi có phát hiện, EventBridge tạo sự kiện để kích hoạt Lambda, thực hiện các tác vụ như xử lý dữ liệu và gửi thông báo qua SNS. Hệ thống này đảm bảo bảo mật và tự động phản hồi nhanh chóng với các mối đe dọa.\nVới hệ thống này, bạn sẽ có được những lợi ích nổi bật sau:\nMã hóa dữ liệu an toàn: Dữ liệu được mã hóa bằng AWS KMS, đảm bảo bảo mật ngay cả khi bị truy cập trái phép. Phát hiện thông tin nhạy cảm: Amazon Macie tự động quét dữ liệu để phát hiện các thông tin nhạy cảm như PII hoặc dữ liệu tài chính. Phản hồi sự kiện nhanh chóng Khi phát hiện nguy cơ, EventBridge sẽ kích hoạt quy trình tự động qua AWS Lambda, giúp xử lý sự cố kịp thời. Thông báo tức thì: Cảnh báo được gửi đến quản trị viên qua Amazon SNS, giúp bạn luôn chủ động trong việc bảo mật dữ liệu. Quản lý tập trung và hiệu quả: Tích hợp chặt chẽ với các dịch vụ AWS khác như S3 và IAM, hệ thống giúp quản lý quyền truy cập dễ dàng hơn bao giờ hết. Hệ thống này không chỉ bảo vệ dữ liệu mà còn giúp tiết kiệm thời gian và chi phí cho việc quản lý và giám sát bảo mật.\n"
+},
+{
+	"uri": "/vi/3-accessibilitytoinstances/3.1-sns/",
+	"title": "Tạo kết nối đến SNS",
+	"tags": [],
+	"description": "",
+	"content": "Tạo kết nối đến SNS Kết nối giữa EventBridge và SNS cho phép tự động gửi thông báo khi các sự kiện xảy ra. Khi một sự kiện được kích hoạt từ EventBridge, nó sẽ gửi thông báo tới SNS, giúp cảnh báo người dùng hoặc hệ thống về các sự kiện quan trọng như phát hiện dữ liệu nhạy cảm. Việc này giúp tối ưu hóa quy trình xử lý và phản hồi sự kiện nhanh chóng.\nTruy cập vào giao diện quản trị của dịch vụ AWS EventBridge.\nClick chọn Create rule Trong phần Target types ta chọn AWS service\nPhần Select a target chọn SNS topic\nSau đó trong phần Topic chọn rule đã tạo là maciesns\nNhấn Next Tiếp tục chọn Create rule Đã tạo thành công Giờ hãy trở lại Macie và thực hiện quét dữ liệu S3 (xem lại ở đây)\nSau khi quét thành công, kiểm tra email đã liên kết với SNS thì đây là kết quả Giải thích thông tin: Thông tin chung về sự kiện\nVersion: Phiên bản của sự kiện.\rid: ID của sự kiện.\rdetail-type: Loại sự kiện, ở đây là Macie Finding.\rsource: Nguồn phát sinh sự kiện, ở đây là aws.macie.\raccount: ID tài khoản AWS đã phát sinh sự kiện.\rtime: Thời gian sự kiện được tạo ra.\rregion: Vùng AWS nơi sự kiện xảy ra (ap-southeast-1 là Singapore).\rresources: Các tài nguyên liên quan đến sự kiện (trong trường hợp này không có tài nguyên cụ thể liệt kê).\rChi tiết về Finding\ntype: Loại dữ liệu nhạy cảm được phát hiện, trong trường hợp này là SensitiveData:S3Object/Financial, nghĩa là dữ liệu tài chính nhạy cảm được tìm thấy trong một đối tượng S3.\rtitle: Tiêu đề của Finding, mô tả về loại dữ liệu được phát hiện (S3 object chứa thông tin tài chính).\rdescription: Mô tả chi tiết về thông tin nhạy cảm được phát hiện (có chứa các số tài khoản ngân hàng hoặc số thẻ tín dụng).\rseverity: Mức độ nghiêm trọng của Finding, có điểm số 3 (cao).\rcreatedAt và updatedAt: Thời gian tạo và cập nhật Finding.\rcount: Số lần phát hiện thông tin nhạy cảm (1 lần).\rChi tiết tài nguyên bị ảnh hưởng\nS3 Bucket\narn: Amazon Resource Name của bucket S3.\rname: Tên bucket S3 là \u0026quot;datas3jobs\u0026quot;.\rowner: Thông tin về chủ sở hữu bucket (tên người dùng và ID tài khoản AWS).\rpublicAccess: Cho biết quyền truy cập công cộng của bucket, ở đây là \u0026quot;NOT_PUBLIC\u0026quot; (không công khai).\rS3 Object\nbucketArn: Amazon Resource Name của đối tượng trong bucket.\rkey: Tên tệp trong bucket (cc.txt).\rlastModified: Thời gian đối tượng S3 được chỉnh sửa lần cuối.\rsize: Kích thước của đối tượng S3 (168 byte).\rstorageClass: Lớp lưu trữ của đối tượng (STANDARD).\rChi tiết về dữ liệu nhạy cảm phát hiện\nsensitiveData: Thông tin chi tiết về dữ liệu nhạy cảm được phát hiện\rcategory: Loại thông tin nhạy cảm là FINANCIAL_INFORMATION (thông tin tài chính).\rdetections: Phát hiện thông tin nhạy cảm của CREDIT_CARD_NUMBER (số thẻ tín dụng).\roccurrences: Vị trí các số thẻ tín dụng trong tệp (dòng 2 đến 6).\rThông tin thêm về kết quả phân tích\ndetailedResultsLocation: Đường dẫn S3 chứa kết quả chi tiết của việc phân tích dữ liệu (file JSON nén).\rTình trạng và kết quả\nstatus: Trạng thái của công việc phân tích, ở đây là COMPLETE (hoàn thành).\rsizeClassified: Kích thước dữ liệu đã được phân loại (168 byte).\rmoreDetections: Không có thêm phát hiện nào sau khi hoàn thành công việc phân tích.\rsensitiveData: Phát hiện thông tin thẻ tín dụng trong tài liệu.\r"
+},
+{
+	"uri": "/vi/2-prerequiste/2.1-creates3/",
+	"title": "Tạo S3 Bucket",
+	"tags": [],
+	"description": "",
+	"content": "Tạo S3 Bucket Trong bước này, chúng ta sẽ cần tạo một S3 Bucket để Upload và lưu trữ dữ liệu\nTruy cập vào giao diện quản trị dịch vụ S3\nTa chọn Create bucket và đặt tên là \u0026ldquo;datacase1\u0026rdquo; và chọn Create Bucket đã được tạo thành công Đây là một số dữ liệu mẫu dùng để chạy kiểm thử tại đây\nClick Upload Chọn Add file Chọn các file cần thiết và nhấn Upload "
+},
+{
+	"uri": "/vi/2-prerequiste/",
+	"title": "Các bước chuẩn bị",
+	"tags": [],
+	"description": "",
+	"content": "Để triển khai hệ thống, bạn cần thực hiện các bước chuẩn bị sau:\nTạo S3 Bucket: Lưu trữ dữ liệu một cách an toàn\nTạo IAM User và IAM Role: Quản lý quyền truy cập và bảo mật bạn có thể tham khảo bài lab Quản trị quyền truy cập với AWS IAM\nTạo Macie: Phát hiện và bảo vệ dữ liệu nhạy cảm\nTạo SNS: Thiết lập thông báo sự kiện\nTạo KMS: Mã hóa dữ liệu và quản lý khóa bảo mật\nNội dung Tạo S3 Bucket Tạo IAM USER và IAM Role Tạo Macie Tạo SNS Tạo KMS "
+},
+{
+	"uri": "/vi/2-prerequiste/2.2-createiamrole/",
+	"title": "Tạo IAM User và IAM Role",
+	"tags": [],
+	"description": "",
+	"content": "Trong bước này chúng ta sẽ tiến hành tạo IAM User và IAM Role. Trong IAM User chúng ta sẽ tạo 2 user là \u0026ldquo;useronlyread\u0026rdquo; với quyền xem nội dung có thể mã hóa và \u0026ldquo;userlock\u0026rdquo; không thể xem nội dung mã hóa . Và trong IAM Role chúng ta sẽ tạo thêm 2 policy mới có tên là \u0026ldquo;kmsonlyread\u0026rdquo; để có thể tích hợp vào 2 User trên.\nTạo Policy và IAM Role Tạo Policy và IAM Role\nTruy cập vào giao diện quản trị dịch vụ IAM Ở thanh điều hướng bên trái, click Policies tiếp tục chọn JSON\nNhập vào code vào phần Policy editor sau đó save lại và chọn Next\n{\r\u0026quot;Version\u0026quot;: \u0026quot;2012-10-17\u0026quot;,\r\u0026quot;Statement\u0026quot;: [\r{\r\u0026quot;Effect\u0026quot;: \u0026quot;Allow\u0026quot;,\r\u0026quot;Action\u0026quot;: [\r\u0026quot;kms:Decrypt\u0026quot;,\r\u0026quot;kms:DescribeKey\u0026quot;\r],\r\u0026quot;Resource\u0026quot;: \u0026quot;arn:aws:kms:your-region:your-account-id:key/your-key-id\u0026quot;\r}\r]\r}\rTiếp tục đặt tên, ở đây là \u0026ldquo;kmsonlyread\u0026rdquo; viết Description và cuối cùng nhấn Create\nĐã tạo thành công!\nTiếp theo là tạo IAM Role\nTruy cập vào giao diện quản trị dịch vụ IAM\nClick Role tiếp tục chọn AWS service tiếp đến là System Manager sau đó Next\nTìm và chọn policy đã tạo tên \u0026ldquo;kmsaonlyread\u0026rdquo; sau đó Cick Next\nTiếp tục đặt tên, ở đây là \u0026ldquo;kmsonlyread\u0026rdquo; viết Description và cuối cùng nhấn Create\nTiếp tục lặp lại các bước để tạo thêm Role\nClick Role tiếp tục chọn AWS service tiếp đến là System Manager sau đó Next\nTìm và chọn policy tên \u0026ldquo;AWSKeyManagementServicePowerUser\u0026rdquo; và \u0026ldquo;IAMFullAccess\u0026rdquo; sau đó Cick Next\nTiếp tục đặt tên, ở đây là \u0026ldquo;kmskeyadmin\u0026rdquo; viết Description và cuối cùng nhấn Create\nĐã tạo thành công!\nTạo IAM User Truy cập vào giao diện quản trị dịch vụ IAM Ở thanh điều hướng bên trái, click User tiếp tục chọn Create user\nĐặt tên cho User ở đây tên là \u0026ldquo;useronlyread\u0026rdquo;\nSau đó chọn I want to create an IAM user và đặt Password rồi nhấn Next\nTiếp tục chọn Attach policies directly và tìm đến \u0026ldquo;kmsonlyread\u0026rdquo; rồi nhấn Next\nCuối cùng chọn Create\nĐã tạo thành công!\nTiếp tục lặp lại các bước để tạo thêm User\nĐặt tên cho User ở đây tên là \u0026ldquo;userlock\u0026rdquo;\nSau đó chọn I want to create an IAM user và đặt Password rồi nhấn Next\nTiếp tục chọn Attach policies directly và tìm đến \u0026ldquo;AmazonS3ReadOnlyAccess\u0026rdquo; rồi nhấn Next\nCuối cùng chọn Create\nĐã tạo thành công!\nTiếp tục chúng ta sẽ thực hiện các bước chuẩn bị tiếp theo!\n"
+},
+{
+	"uri": "/vi/3-accessibilitytoinstances/3.2-lambda/",
+	"title": "Tạo kết nối đến Lambda",
+	"tags": [],
+	"description": "",
+	"content": "Tạo Funcion Lambda Kết nối giữa EventBridge và Lambda cho phép tự động kích hoạt Lambda function khi có sự kiện xảy ra. Khi một sự kiện từ EventBridge được phát hiện, nó sẽ kích hoạt Lambda để thực hiện các tác vụ xử lý, như xử lý dữ liệu, gửi thông báo hoặc thực hiện các hành động tùy chỉnh, giúp tự động hóa quy trình và phản hồi nhanh chóng với các sự kiện.\nTruy cập vào giao diện quản trị dịch vụ Lambda sau đó chọn Create Funcion\nỞ đây ta tiếp tục chọn Author from scratch\nTiếp đến là đặt tên, ở đây chọn tên là \u0026ldquo;lambdaKms\u0026rdquo;, sau đó chọn Python và cuối cùng chọn Create\nNhập đoạn code dưới đây vào và click Deploy\nimport boto3\rimport json\r# Khởi tạo client cho S3\rs3 = boto3.client('s3')\rkms_key_id = 'arn:aws:kms:ap-southeast-1:124355683434:key/7530651d-7603-48cd-a96c-b18499d302ac'\rdef lambda_handler(event, context):\rprint(\u0026quot;Event received:\u0026quot;, json.dumps(event)) # Log sự kiện để kiểm tra\rtry:\r# Lấy thông tin chi tiết về S3 object từ sự kiện của Macie\rdetail = event.get('detail')\rbucket_name = detail['resourcesAffected']['s3Bucket']['name']\robject_key = detail['resourcesAffected']['s3Object']['key']\r# Log thông tin về bucket và object key\rprint(f\u0026quot;Bucket: {bucket_name}, Object: {object_key}\u0026quot;)\r# Sao chép và mã hóa đối tượng trong S3 bằng KMS\rcopy_source = {'Bucket': bucket_name, 'Key': object_key}\rs3.copy_object(\rBucket=bucket_name,\rKey=object_key,\rCopySource=copy_source,\rServerSideEncryption='aws:kms',\rSSEKMSKeyId=kms_key_id\r)\rprint(\u0026quot;Dữ liệu đã được mã hóa thành công!\u0026quot;)\rreturn {\r'statusCode': 200,\r'body': json.dumps('Dữ liệu đã được mã hóa thành công!')\r}\rexcept Exception as e:\rprint(f\u0026quot;Error occurred: {str(e)}\u0026quot;)\rreturn {\r'statusCode': 500,\r'body': json.dumps(f'Error: {str(e)}')\r}\rTạo kết nối với Lambda Truy cập vào giao diện quản trị của dịch vụ AWS EventBridge.\nClick chọn Create rule Đặt tên cho Rule, ở đây là \u0026ldquo;maciekms\u0026rdquo; và viết Description\nSau đó chọn Next Tiếp tục chọn Use pattern form rồi AWS service, Macie và Macie Finding Cuối cùng chọn Next\nỞ phần Select a target chọn Lambda function sau đó tiếp tục chọn Funcion của mình đã tạo là lambdaKms\nTiếp tục Next và chọn Create\nQuay trở lại Lambda Funcion của chúng ta, ở phần Configuration Chọn Role name\nTại đây ta thêm các Policy cần thiết, ta tiếp tục chọn Create inline policy\nNhập đoạn code dưới đây sau đó Next\n{\r\u0026quot;Version\u0026quot;: \u0026quot;2012-10-17\u0026quot;,\r\u0026quot;Statement\u0026quot;: [\r{\r\u0026quot;Effect\u0026quot;: \u0026quot;Allow\u0026quot;,\r\u0026quot;Action\u0026quot;: [\r\u0026quot;kms:Encrypt\u0026quot;,\r\u0026quot;kms:Decrypt\u0026quot;,\r\u0026quot;kms:GenerateDataKey\u0026quot;,\r\u0026quot;kms:DescribeKey\u0026quot;\r],\r\u0026quot;Resource\u0026quot;: \u0026quot;arn:aws:kms:ap-southeast-1:124355683434:key/7530651d-7603-4c5d-9c37-dcc7a12a2489\u0026quot;\r}\r]\r}\rCuối cùng nhập tên \u0026ldquo;kmskeylambda\u0026rdquo; và chọn Create\nVà ta đã có đủ các Policy cần thiết cho Lambda\n"
+},
+{
+	"uri": "/vi/3-accessibilitytoinstances/",
+	"title": "Dùng EventBridge để kết nối với SNS và Lambda",
+	"tags": [],
+	"description": "",
+	"content": "Amazon EventBridge là gì ? Amazon EventBridge là dịch vụ bus sự kiện phi máy chủ của AWS, cho phép xây dựng các ứng dụng định hướng theo sự kiện bằng cách kết nối dữ liệu từ các ứng dụng tùy chỉnh, ứng dụng SaaS và dịch vụ AWS. EventBridge giúp định tuyến, lọc và chuyển đổi sự kiện, hỗ trợ tích hợp với hơn 200 dịch vụ AWS và hơn 45 đối tác SaaS\nCác bước thực hiện Trong bước này, chúng ta sẽ thực hiện tạo kết nối EventBridge đến dịch vụ SNS và Lambda\nKết nối giữa SNS và Lambda là một giải pháp tự động hóa thông báo và xử lý sự kiện. Khi có sự kiện, SNS gửi thông báo tới Lambda để thực hiện các tác vụ như gửi cảnh báo, xử lý dữ liệu, hoặc lưu trữ thông tin. Điều này giúp tối ưu hóa quy trình và đảm bảo hiệu quả trong việc phản hồi các sự kiện quan trọng.\nNội dung Tạo Kết nối đến SNS Tạo Kết nối đến Lambda "
+},
+{
+	"uri": "/vi/2-prerequiste/2.3-createmacie/",
+	"title": "Tạo Macie",
+	"tags": [],
+	"description": "",
+	"content": "Tạo Macie Trong bước này chúng ta sẽ tiến hành tạo Macie. Amazon Macie là dịch vụ AWS sử dụng machine learning để tự động phát hiện, phân loại, và bảo vệ dữ liệu nhạy cảm, đặc biệt trong S3. Nó giúp phát hiện các thông tin quan trọng như PII, số thẻ tín dụng và tạo cảnh báo khi phát hiện rủi ro.\nTruy cập vào giao diện quản trị dịch vụ Macie\nChọn Get started Click Enable Macie.\nChờ Macie loading, sau đó chọn Create job\nBạn sẽ cần chờ khoảng 10 phút trước khi thực hiện bước tiếp theo.\nỞ đây ta có thể chọn Scheduled job để có thể tự động quét và One-time job để quét một lần, ở đây do để tiết kiệm thời gian nên ta sử dụng One-time job sau đó chọn Next Tiếp theo chúng ta sẽ đặt tên cho Job Macie, ở đây là \u0026ldquo;usecase1data\u0026rdquo; và chọn Create job Chờ một khoảng thời gian để tạo. Sau khi đã tạo xong thì ta sẽ xem kết quả những gì mà Macie đã quét được trong Bucket của chúng ta\nBạn sẽ cần chờ khoảng 10 ~ 20 phút trước khi thực hiện bước tiếp theo.\nChọn Show results -\u0026gt; Show findings Ở đây ta sẽ phát hiện được tệp tin Credit cards - cc.txt là tệp tin có \u0026ldquo;Mức độ nghiêm trọng cao\u0026rdquo;\nChúng ta đã hoàn thành việc tạo và kiểm thử Macie trong việc phát hiện tập tinh có độ nghiêm trọng cao, tiếp theo chúng ta sẽ sử dụng dịch vụ EventBridge để kết nối với SNS và Lambda thực hiện việc gửi thông báo và mã hóa dữ liệu\n"
+},
+{
+	"uri": "/vi/4-s3log/",
+	"title": "Kiểm thử tính năng dùng Lambda kích hoạt KMS mã hóa",
+	"tags": [],
+	"description": "",
+	"content": "Sau đây là quá trình đánh giá và kiểm tra các thành phần trong hệ thống để đảm bảo tính chính xác, hiệu quả và bảo mật. Việc kiểm thử bao gồm kiểm tra các dịch vụ AWS như KMS, Macie, EventBridge, SNS và Lambda để đảm bảo chúng hoạt động đúng như yêu cầu và không có lỗi trong việc xử lý sự kiện, bảo mật dữ liệu và gửi thông báo. Sau đó ta có thể kiểm tra tính năng bảo mật của chương trình.\nĐầu tiên ta tạo và upload dữ liệu s3 trong đó có các file dữ liệu mẫu để kiểm thử tại đây\nTiếp tục tạo Job Macie để bắt đầu quét dữ liệu\nSau khi Macie quét xong, SNS sẽ thông báo đến Gmail đã được chọn\nGmail có dạng như dưới đây\nĐăng nhập vào user \u0026ldquo;userlock\u0026rdquo; Sau khi vào S3 Kiểm tra thì ta không thể nào xem được file \u0026ldquo;cc.txt\u0026rdquo; do đã bị mã hóa\nTiếp tục đăng nhập vào user \u0026ldquo;useronlyread\u0026rdquo; Ta có thể xem được file\n"
+},
+{
+	"uri": "/vi/2-prerequiste/2.4-createsns/",
+	"title": "Tạo SNS",
+	"tags": [],
+	"description": "",
+	"content": "Amazon SNS Amazon SNS (Simple Notification Service) là dịch vụ của AWS cho phép gửi thông báo nhanh chóng, linh hoạt đến nhiều người nhận qua các giao thức như email, SMS, hoặc HTTP/HTTPS. SNS hỗ trợ tạo các chủ đề (topics) để phát thông báo đến nhiều thuê bao (subscribers) cùng lúc. Dịch vụ này được dùng phổ biến trong các hệ thống thông báo thời gian thực hoặc cảnh báo tự động.\nTruy cập vào giao diện quản trị dịch vụ SNS\nĐặt tên cho topic sau đó chọn Next step Tiếp tục chọn theo các bước trong ảnh Ở phần Publishers và Subscribers thì nhập vào ID tài khoản Rồi chọn Create topic Đây là giao diện sau khi tạo thành công Tiếp tục click vào Create Subscription Trong mục Protocol chọn Email\nTrong mục Emdpiont thì điền Gmail nhận thông báo \u0026ldquo;ở đây là Gmail cá nhân\u0026rdquo;\nSau đó chọn Create Subscription Giờ hãy vào Gmail đã đăng ký và click vào Confirm Subscription để xác nhận Vậy là đã hoàn thành việc tạo topic SNS và đăng ký Gmail để nhận thông báo. Tiếp theo bạn có thể sử dụng EventBridge để kết nối với SNS\n"
+},
+{
+	"uri": "/vi/5-cleanup/",
+	"title": "Dọn dẹp tài nguyên  ",
+	"tags": [],
+	"description": "",
+	"content": "Chúng ta sẽ tiến hành các bước sau để xóa các tài nguyên chúng ta đã tạo trong bài thực hành này nhằm tránh phát sinh chi phí ngoài ý muốn.\nXóa S3 Bucket Tại giao diện trang chủ S3 , trước tiên ta Empty bucket đó\nChọn Bucket cần xóa sau đó chọn Empty\nType \u0026ldquo;permanently delete\u0026rdquo; sau đó Click Empty*\nGiờ đây ta có thể xóa được Bucket\nChọn Bucket cần xóa sau đó chọn Delete\nType tên bucket \u0026ldquo;datacase1\u0026rdquo; sau đó Click Delete bucket*\nXóa IAM Policy, IAM Role và IAM User Trong giao diện trang chủ của IAM chọn Role ở thanh điều hướng bên trái, sau đó chọn Role cần xóa và chọn Delete\nTa nhập \u0026ldquo;delete\u0026rdquo; và click vào Delete\nTương tự trong giao diện trang chủ của IAM chọn Policy ở thanh điều hướng bên trái, sau đó chọn Policy cần xóa và chọn Delete\nNhập tên Policy \u0026ldquo;kmsonlyread\u0026rdquo; và chọn Delete\nTrong giao diện trang chủ của IAM chọn Users ở thanh điều hướng bên trái, sau đó chọn các User cần xóa và chọn Delete\nTại đây ta nhập \u0026ldquo;delete\u0026rdquo; và click vào Delete\nXóa Lambda Trong giao diện trang chủ của Lambda chọn Funcion ở thanh điều hướng bên trái, sau đó chọn các Funcion cần xóa Click vào Action và chọn Delete\nTa nhập \u0026ldquo;delete\u0026rdquo; và click vào Delete\nXóa EventBridge Trong giao diện trang chủ của Event Bridge chọn Rule ở thanh điều hướng bên trái, sau đó chọn các Rule cần xóa Click Delete\nTa nhập \u0026ldquo;delete\u0026rdquo; và click vào Delete\nTắt Macie Trong giao diện trang chủ của Macie chọn Setting ở thanh điều hướng bên trái, sau đó ở Disable Macie chọn Disable Macie\nXóa SNS Trong giao diện trang chủ của SNS chọn Topics ở thanh điều hướng bên trái, sau đó chọn các Topic cần xóa và chọn Delete\nTa nhập \u0026ldquo;delete\u0026rdquo; và click vào Delete\nXóa KMS Trong giao diện trang chủ của KMS chọn Customer managed keys ở thanh điều hướng bên trái, sau đó chọn các Customer managed keys cần xóa Click Key action và chọn Disable\nHiện tại ta chỉ có thể Disable key KMS và ta sẽ cần chờ khoảng 7 ngày để có thể xóa key KMS.\n"
+},
+{
+	"uri": "/vi/2-prerequiste/2.5-createkms/",
+	"title": "Tạo KMS",
+	"tags": [],
+	"description": "",
+	"content": "Amazon KMS AWS Key Management Service (KMS) là dịch vụ quản lý khóa mã hóa của Amazon Web Services, cho phép bạn tạo, quản lý và kiểm soát các khóa mật mã để bảo vệ dữ liệu trên các ứng dụng và dịch vụ AWS. KMS hỗ trợ mã hóa dữ liệu, ký số và tạo mã xác thực thông báo (MAC), giúp đảm bảo tính bảo mật và toàn vẹn của thông tin.\nTruy cập vào giao diện quản trị dịch vụ KMS\nChọn Create key sau đó chọn Next Đặt tên ở mục Alias, ở đây là \u0026ldquo;kmskey\u0026rdquo; và viết description (tùy chọn) cuối cùng click Next\nChọn role đã tạo \u0026ldquo;kmskeyadmin\u0026rdquo; rồi chọn Next và Finish\n"
+},
+{
+	"uri": "/vi/categories/",
+	"title": "Categories",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "/vi/tags/",
+	"title": "Tags",
+	"tags": [],
+	"description": "",
+	"content": ""
+}]
