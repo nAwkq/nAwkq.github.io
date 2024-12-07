@@ -12,21 +12,21 @@
     <title>Create IAM User and IAM Role :: AWS System Manager</title>
 
     
-    <link href="../../css/nucleus.css?1733591213" rel="stylesheet">
-    <link href="../../css/fontawesome-all.min.css?1733591213" rel="stylesheet">
-    <link href="../../css/hybrid.css?1733591213" rel="stylesheet">
-    <link href="../../css/featherlight.min.css?1733591213" rel="stylesheet">
-    <link href="../../css/perfect-scrollbar.min.css?1733591213" rel="stylesheet">
-    <link href="../../css/auto-complete.css?1733591213" rel="stylesheet">
-    <link href="../../css/atom-one-dark-reasonable.css?1733591213" rel="stylesheet">
-    <link href="../../css/theme.css?1733591213" rel="stylesheet">
-    <link href="../../css/hugo-theme.css?1733591213" rel="stylesheet">
+    <link href="../../css/nucleus.css?1733591985" rel="stylesheet">
+    <link href="../../css/fontawesome-all.min.css?1733591985" rel="stylesheet">
+    <link href="../../css/hybrid.css?1733591985" rel="stylesheet">
+    <link href="../../css/featherlight.min.css?1733591985" rel="stylesheet">
+    <link href="../../css/perfect-scrollbar.min.css?1733591985" rel="stylesheet">
+    <link href="../../css/auto-complete.css?1733591985" rel="stylesheet">
+    <link href="../../css/atom-one-dark-reasonable.css?1733591985" rel="stylesheet">
+    <link href="../../css/theme.css?1733591985" rel="stylesheet">
+    <link href="../../css/hugo-theme.css?1733591985" rel="stylesheet">
     
-    <link href="../../css/theme-workshop.css?1733591213" rel="stylesheet">
+    <link href="../../css/theme-workshop.css?1733591985" rel="stylesheet">
     
     
 
-    <script src="../../js/jquery-3.3.1.min.js?1733591213"></script>
+    <script src="../../js/jquery-3.3.1.min.js?1733591985"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="../../js/lunr.min.js?1733591213"></script>
-<script type="text/javascript" src="../../js/auto-complete.js?1733591213"></script>
+<script type="text/javascript" src="../../js/lunr.min.js?1733591985"></script>
+<script type="text/javascript" src="../../js/auto-complete.js?1733591985"></script>
 <script type="text/javascript">
     
         var baseurl = "\/";
     
 </script>
-<script type="text/javascript" src="../../js/search.js?1733591213"></script>
+<script type="text/javascript" src="../../js/search.js?1733591985"></script>
 
     
   </div>
@@ -583,6 +583,7 @@
     <li>
       <ul>
         <li><a href="#create-policy-and-iam-role">Create Policy and IAM Role</a></li>
+        <li><a href="#create-iam-user">Create IAM User</a></li>
       </ul>
     </li>
   </ul>
@@ -617,109 +618,66 @@
 In the left navigation bar, click <strong>Policies</strong>, then select <strong>JSON</strong>.</p>
 <p><img alt="policy" src="../../images/2.prerequisite/2.2/2.2.1/chonIAM_chonCreatePolicy_chonJSON.png"></p>
 <p>Enter the following code into the <strong>Policy editor</strong>, then save and click <strong>Next</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Statement&#34;</span>: [
-</span></span><span style="display:flex;"><span>        {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Action&#34;</span>: [
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;kms:Decrypt&#34;</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;kms:DescribeKey&#34;</span>
-</span></span><span style="display:flex;"><span>            ],
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:kms:your-region:your-account-id:key/your-key-id&#34;</span>
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    ]
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">policy</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">/nhapvaodoancode_saudosaveVaNEXT.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Next,</span> <span style="color:#960050;background-color:#1e0010">assign</span> <span style="color:#960050;background-color:#1e0010">a</span> <span style="color:#960050;background-color:#1e0010">name,</span> <span style="color:#960050;background-color:#1e0010">in</span> <span style="color:#960050;background-color:#1e0010">this</span> <span style="color:#960050;background-color:#1e0010">case,</span> <span style="color:#e6db74">&#34;kmsonlyread,&#34;</span> <span style="color:#960050;background-color:#1e0010">write</span> <span style="color:#960050;background-color:#1e0010">a</span> <span style="color:#960050;background-color:#1e0010">**Description**,</span> <span style="color:#960050;background-color:#1e0010">and</span> <span style="color:#960050;background-color:#1e0010">finally</span> <span style="color:#960050;background-color:#1e0010">click</span> <span style="color:#960050;background-color:#1e0010">**Create**.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">policy</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">/datten_vietdescription_saudoCreate.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Successfully</span> <span style="color:#960050;background-color:#1e0010">created!</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">policy</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">/dataothanhcong.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Next,</span> <span style="color:#960050;background-color:#1e0010">proceed</span> <span style="color:#960050;background-color:#1e0010">to</span> <span style="color:#960050;background-color:#1e0010">create</span> <span style="color:#960050;background-color:#1e0010">an</span> <span style="color:#960050;background-color:#1e0010">IAM</span> <span style="color:#960050;background-color:#1e0010">Role.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Access</span> <span style="color:#960050;background-color:#1e0010">the</span> [<span style="color:#960050;background-color:#1e0010">IAM</span> <span style="color:#960050;background-color:#1e0010">management</span> <span style="color:#960050;background-color:#1e0010">console</span>]<span style="color:#960050;background-color:#1e0010">(https:</span><span style="color:#75715e">//console.aws.amazon.com/iamv2/).
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Click</span> <span style="color:#960050;background-color:#1e0010">**Role**,</span> <span style="color:#960050;background-color:#1e0010">then</span> <span style="color:#960050;background-color:#1e0010">select</span> <span style="color:#960050;background-color:#1e0010">**AWS</span> <span style="color:#960050;background-color:#1e0010">service**,</span> <span style="color:#960050;background-color:#1e0010">followed</span> <span style="color:#960050;background-color:#1e0010">by</span> <span style="color:#960050;background-color:#1e0010">**System</span> <span style="color:#960050;background-color:#1e0010">Manager**,</span> <span style="color:#960050;background-color:#1e0010">and</span> <span style="color:#960050;background-color:#1e0010">click</span> <span style="color:#960050;background-color:#1e0010">**Next**.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">role</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">/chonAWSservice_tinvachonSystemManager_NExt.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Find</span> <span style="color:#960050;background-color:#1e0010">and</span> <span style="color:#960050;background-color:#1e0010">select</span> <span style="color:#960050;background-color:#1e0010">the</span> <span style="color:#960050;background-color:#1e0010">policy</span> <span style="color:#960050;background-color:#1e0010">named</span> <span style="color:#e6db74">&#34;kmsonlyread,&#34;</span> <span style="color:#960050;background-color:#1e0010">then</span> <span style="color:#960050;background-color:#1e0010">click</span> <span style="color:#960050;background-color:#1e0010">**Next**.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">role</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">/timvachonKMSOnlyread_Next.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Assign</span> <span style="color:#960050;background-color:#1e0010">a</span> <span style="color:#960050;background-color:#1e0010">name,</span> <span style="color:#960050;background-color:#1e0010">in</span> <span style="color:#960050;background-color:#1e0010">this</span> <span style="color:#960050;background-color:#1e0010">case,</span> <span style="color:#e6db74">&#34;kmsonlyread,&#34;</span> <span style="color:#960050;background-color:#1e0010">write</span> <span style="color:#960050;background-color:#1e0010">a</span> <span style="color:#960050;background-color:#1e0010">**Description**,</span> <span style="color:#960050;background-color:#1e0010">and</span> <span style="color:#960050;background-color:#1e0010">finally</span> <span style="color:#960050;background-color:#1e0010">click</span> <span style="color:#960050;background-color:#1e0010">**Create**.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">role</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">/dattenKMSonlyread_vietdescription_chonCreate.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Repeat</span> <span style="color:#960050;background-color:#1e0010">these</span> <span style="color:#960050;background-color:#1e0010">steps</span> <span style="color:#960050;background-color:#1e0010">to</span> <span style="color:#960050;background-color:#1e0010">create</span> <span style="color:#960050;background-color:#1e0010">additional</span> <span style="color:#960050;background-color:#1e0010">roles</span> <span style="color:#960050;background-color:#1e0010">as</span> <span style="color:#960050;background-color:#1e0010">needed.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Click</span> <span style="color:#960050;background-color:#1e0010">**Role**,</span> <span style="color:#960050;background-color:#1e0010">then</span> <span style="color:#960050;background-color:#1e0010">select</span> <span style="color:#960050;background-color:#1e0010">**AWS</span> <span style="color:#960050;background-color:#1e0010">service**,</span> <span style="color:#960050;background-color:#1e0010">followed</span> <span style="color:#960050;background-color:#1e0010">by</span> <span style="color:#960050;background-color:#1e0010">**System</span> <span style="color:#960050;background-color:#1e0010">Manager**,</span> <span style="color:#960050;background-color:#1e0010">and</span> <span style="color:#960050;background-color:#1e0010">click</span> <span style="color:#960050;background-color:#1e0010">**Next**.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">role</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">3</span><span style="color:#960050;background-color:#1e0010">/chonAWSservice_tinvachonSystemManager_NExt_</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Find</span> <span style="color:#960050;background-color:#1e0010">and</span> <span style="color:#960050;background-color:#1e0010">select</span> <span style="color:#960050;background-color:#1e0010">the</span> <span style="color:#960050;background-color:#1e0010">policies</span> <span style="color:#960050;background-color:#1e0010">named</span> <span style="color:#e6db74">&#34;AWSKeyManagementServicePowerUser&#34;</span> <span style="color:#960050;background-color:#1e0010">and</span> <span style="color:#e6db74">&#34;IAMFullAccess,&#34;</span> <span style="color:#960050;background-color:#1e0010">then</span> <span style="color:#960050;background-color:#1e0010">click</span> <span style="color:#960050;background-color:#1e0010">**Next**.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">role</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">3</span><span style="color:#960050;background-color:#1e0010">/timvachonAWSkeyMS_</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">role</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">3</span><span style="color:#960050;background-color:#1e0010">/vaIAMfullaccess_</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Assign</span> <span style="color:#960050;background-color:#1e0010">a</span> <span style="color:#960050;background-color:#1e0010">name,</span> <span style="color:#960050;background-color:#1e0010">in</span> <span style="color:#960050;background-color:#1e0010">this</span> <span style="color:#960050;background-color:#1e0010">case,</span> <span style="color:#e6db74">&#34;kmskeyadmin,&#34;</span> <span style="color:#960050;background-color:#1e0010">write</span> <span style="color:#960050;background-color:#1e0010">a</span> <span style="color:#960050;background-color:#1e0010">**Description**,</span> <span style="color:#960050;background-color:#1e0010">and</span> <span style="color:#960050;background-color:#1e0010">finally</span> <span style="color:#960050;background-color:#1e0010">click</span> <span style="color:#960050;background-color:#1e0010">**Create**.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">role</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">3</span><span style="color:#960050;background-color:#1e0010">/dattenlaKMSkeyadmin_</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Successfully</span> <span style="color:#960050;background-color:#1e0010">created!</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">role</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">3</span><span style="color:#960050;background-color:#1e0010">/taothanhcong</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">role.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">###</span> <span style="color:#960050;background-color:#1e0010">Create</span> <span style="color:#960050;background-color:#1e0010">IAM</span> <span style="color:#960050;background-color:#1e0010">User</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Access</span> <span style="color:#960050;background-color:#1e0010">the</span> [<span style="color:#960050;background-color:#1e0010">IAM</span> <span style="color:#960050;background-color:#1e0010">management</span> <span style="color:#960050;background-color:#1e0010">console</span>]<span style="color:#960050;background-color:#1e0010">(https:</span><span style="color:#75715e">//console.aws.amazon.com/iamv2/).
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">In</span> <span style="color:#960050;background-color:#1e0010">the</span> <span style="color:#960050;background-color:#1e0010">left</span> <span style="color:#960050;background-color:#1e0010">navigation</span> <span style="color:#960050;background-color:#1e0010">bar,</span> <span style="color:#960050;background-color:#1e0010">click</span> <span style="color:#960050;background-color:#1e0010">**User**</span> <span style="color:#960050;background-color:#1e0010">and</span> <span style="color:#960050;background-color:#1e0010">then</span> <span style="color:#960050;background-color:#1e0010">select</span> <span style="color:#960050;background-color:#1e0010">**Create</span> <span style="color:#960050;background-color:#1e0010">user**.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">iam</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">4</span><span style="color:#960050;background-color:#1e0010">/chonCreateuser.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Assign</span> <span style="color:#960050;background-color:#1e0010">a</span> <span style="color:#960050;background-color:#1e0010">name</span> <span style="color:#960050;background-color:#1e0010">for</span> <span style="color:#960050;background-color:#1e0010">the</span> <span style="color:#960050;background-color:#1e0010">user,</span> <span style="color:#960050;background-color:#1e0010">in</span> <span style="color:#960050;background-color:#1e0010">this</span> <span style="color:#960050;background-color:#1e0010">case,</span> <span style="color:#e6db74">&#34;useronlyread.&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Then</span> <span style="color:#960050;background-color:#1e0010">select</span> <span style="color:#960050;background-color:#1e0010">**I</span> <span style="color:#960050;background-color:#1e0010">want</span> <span style="color:#960050;background-color:#1e0010">to</span> <span style="color:#960050;background-color:#1e0010">create</span> <span style="color:#960050;background-color:#1e0010">an</span> <span style="color:#960050;background-color:#1e0010">IAM</span> <span style="color:#960050;background-color:#1e0010">user**,</span> <span style="color:#960050;background-color:#1e0010">set</span> <span style="color:#960050;background-color:#1e0010">the</span> <span style="color:#960050;background-color:#1e0010">**Password**,</span> <span style="color:#960050;background-color:#1e0010">and</span> <span style="color:#960050;background-color:#1e0010">click</span> <span style="color:#960050;background-color:#1e0010">**Next**.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">iam</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">4</span><span style="color:#960050;background-color:#1e0010">/datteb_chonIwant_datpass_chonNExt.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Continue</span> <span style="color:#960050;background-color:#1e0010">by</span> <span style="color:#960050;background-color:#1e0010">selecting</span> <span style="color:#960050;background-color:#1e0010">**Attach</span> <span style="color:#960050;background-color:#1e0010">policies</span> <span style="color:#960050;background-color:#1e0010">directly**,</span> <span style="color:#960050;background-color:#1e0010">find</span> <span style="color:#e6db74">&#34;kmsonlyread,&#34;</span> <span style="color:#960050;background-color:#1e0010">and</span> <span style="color:#960050;background-color:#1e0010">click</span> <span style="color:#960050;background-color:#1e0010">**Next**.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Finally,</span> <span style="color:#960050;background-color:#1e0010">click</span> <span style="color:#960050;background-color:#1e0010">**Create**.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">iam</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">4</span><span style="color:#960050;background-color:#1e0010">/chonKMSonly_next_chonCreate.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Successfully</span> <span style="color:#960050;background-color:#1e0010">created!</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">iam</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">4</span><span style="color:#960050;background-color:#1e0010">/dataothanhcong_sueronlyread.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Repeat</span> <span style="color:#960050;background-color:#1e0010">the</span> <span style="color:#960050;background-color:#1e0010">steps</span> <span style="color:#960050;background-color:#1e0010">to</span> <span style="color:#960050;background-color:#1e0010">create</span> <span style="color:#960050;background-color:#1e0010">another</span> <span style="color:#960050;background-color:#1e0010">user.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Assign</span> <span style="color:#960050;background-color:#1e0010">a</span> <span style="color:#960050;background-color:#1e0010">name</span> <span style="color:#960050;background-color:#1e0010">for</span> <span style="color:#960050;background-color:#1e0010">the</span> <span style="color:#960050;background-color:#1e0010">user,</span> <span style="color:#960050;background-color:#1e0010">in</span> <span style="color:#960050;background-color:#1e0010">this</span> <span style="color:#960050;background-color:#1e0010">case,</span> <span style="color:#e6db74">&#34;userlock.&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Then</span> <span style="color:#960050;background-color:#1e0010">select</span> <span style="color:#960050;background-color:#1e0010">**I</span> <span style="color:#960050;background-color:#1e0010">want</span> <span style="color:#960050;background-color:#1e0010">to</span> <span style="color:#960050;background-color:#1e0010">create</span> <span style="color:#960050;background-color:#1e0010">an</span> <span style="color:#960050;background-color:#1e0010">IAM</span> <span style="color:#960050;background-color:#1e0010">user**,</span> <span style="color:#960050;background-color:#1e0010">set</span> <span style="color:#960050;background-color:#1e0010">the</span> <span style="color:#960050;background-color:#1e0010">**Password**,</span> <span style="color:#960050;background-color:#1e0010">and</span> <span style="color:#960050;background-color:#1e0010">click</span> <span style="color:#960050;background-color:#1e0010">**Next**.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">iam</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">5</span><span style="color:#960050;background-color:#1e0010">/datteb_chonIwant_datpass_chonNExt_</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Continue</span> <span style="color:#960050;background-color:#1e0010">by</span> <span style="color:#960050;background-color:#1e0010">selecting</span> <span style="color:#960050;background-color:#1e0010">**Attach</span> <span style="color:#960050;background-color:#1e0010">policies</span> <span style="color:#960050;background-color:#1e0010">directly**,</span> <span style="color:#960050;background-color:#1e0010">find</span> <span style="color:#e6db74">&#34;AmazonS3ReadOnlyAccess,&#34;</span> <span style="color:#960050;background-color:#1e0010">and</span> <span style="color:#960050;background-color:#1e0010">click</span> <span style="color:#960050;background-color:#1e0010">**Next**.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Finally,</span> <span style="color:#960050;background-color:#1e0010">click</span> <span style="color:#960050;background-color:#1e0010">**Create**.</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">iam</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">5</span><span style="color:#960050;background-color:#1e0010">/chons</span><span style="color:#ae81ff">3</span><span style="color:#960050;background-color:#1e0010">read_next_chonCreate_</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Successfully</span> <span style="color:#960050;background-color:#1e0010">created!</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>[<span style="color:#960050;background-color:#1e0010">iam</span>]<span style="color:#960050;background-color:#1e0010">(/images/</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">.prerequisite/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#ae81ff">2.2</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#ae81ff">5</span><span style="color:#960050;background-color:#1e0010">/dataothanhcong</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">user.png)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">We</span> <span style="color:#960050;background-color:#1e0010">will</span> <span style="color:#960050;background-color:#1e0010">now</span> <span style="color:#960050;background-color:#1e0010">proceed</span> <span style="color:#960050;background-color:#1e0010">to</span> <span style="color:#960050;background-color:#1e0010">the</span> <span style="color:#960050;background-color:#1e0010">next</span> <span style="color:#960050;background-color:#1e0010">preparation</span> <span style="color:#960050;background-color:#1e0010">steps!</span>
-</span></span></code></pre></div>
+<pre><code>{
+    &quot;Version&quot;: &quot;2012-10-17&quot;,
+    &quot;Statement&quot;: [
+        {
+            &quot;Effect&quot;: &quot;Allow&quot;,
+            &quot;Action&quot;: [
+                &quot;kms:Decrypt&quot;,
+                &quot;kms:DescribeKey&quot;
+            ],
+            &quot;Resource&quot;: &quot;arn:aws:kms:your-region:your-account-id:key/your-key-id&quot;
+        }
+    ]
+}
+</code></pre>
+<p><img alt="policy" src="../../images/2.prerequisite/2.2/2.2.1/nhapvaodoancode_saudosaveVaNEXT.png"></p>
+<p>Next, assign a name, in this case, &ldquo;kmsonlyread,&rdquo; write a <strong>Description</strong>, and finally click <strong>Create</strong>.</p>
+<p><img alt="policy" src="../../images/2.prerequisite/2.2/2.2.1/datten_vietdescription_saudoCreate.png"></p>
+<p>Successfully created!</p>
+<p><img alt="policy" src="../../images/2.prerequisite/2.2/2.2.1/dataothanhcong.png"></p>
+<p>Next, proceed to create an IAM Role.</p>
+<p>Access the <a href="https://console.aws.amazon.com/iamv2/">IAM management console</a>.</p>
+<p>Click <strong>Role</strong>, then select <strong>AWS service</strong>, followed by <strong>System Manager</strong>, and click <strong>Next</strong>.</p>
+<p><img alt="role" src="../../images/2.prerequisite/2.2/2.2.2/chonAWSservice_tinvachonSystemManager_NExt.png"></p>
+<p>Find and select the policy named &ldquo;kmsonlyread,&rdquo; then click <strong>Next</strong>.</p>
+<p><img alt="role" src="../../images/2.prerequisite/2.2/2.2.2/timvachonKMSOnlyread_Next.png"></p>
+<p>Assign a name, in this case, &ldquo;kmsonlyread,&rdquo; write a <strong>Description</strong>, and finally click <strong>Create</strong>.</p>
+<p><img alt="role" src="../../images/2.prerequisite/2.2/2.2.2/dattenKMSonlyread_vietdescription_chonCreate.png"></p>
+<p>Repeat these steps to create additional roles as needed.</p>
+<p>Click <strong>Role</strong>, then select <strong>AWS service</strong>, followed by <strong>System Manager</strong>, and click <strong>Next</strong>.</p>
+<p><img alt="role" src="../../images/2.prerequisite/2.2/2.2.3/chonAWSservice_tinvachonSystemManager_NExt_2.png"></p>
+<p>Find and select the policies named &ldquo;AWSKeyManagementServicePowerUser&rdquo; and &ldquo;IAMFullAccess,&rdquo; then click <strong>Next</strong>.</p>
+<p><img alt="role" src="../../images/2.prerequisite/2.2/2.2.3/timvachonAWSkeyMS_2.png"></p>
+<p><img alt="role" src="../../images/2.prerequisite/2.2/2.2.3/vaIAMfullaccess_2.png"></p>
+<p>Assign a name, in this case, &ldquo;kmskeyadmin,&rdquo; write a <strong>Description</strong>, and finally click <strong>Create</strong>.</p>
+<p><img alt="role" src="../../images/2.prerequisite/2.2/2.2.3/dattenlaKMSkeyadmin_2.png"></p>
+<p>Successfully created!</p>
+<p><img alt="role" src="../../images/2.prerequisite/2.2/2.2.3/taothanhcong2role.png"></p>
+<h3 id="create-iam-user">Create IAM User</h3>
+<p>Access the <a href="https://console.aws.amazon.com/iamv2/">IAM management console</a>.
+In the left navigation bar, click <strong>User</strong> and then select <strong>Create user</strong>.</p>
+<p><img alt="iam" src="../../images/2.prerequisite/2.2/2.2.4/chonCreateuser.png"></p>
+<p>Assign a name for the user, in this case, &ldquo;useronlyread.&rdquo;</p>
+<p>Then select <strong>I want to create an IAM user</strong>, set the <strong>Password</strong>, and click <strong>Next</strong>.</p>
+<p><img alt="iam" src="../../images/2.prerequisite/2.2/2.2.4/datteb_chonIwant_datpass_chonNExt.png"></p>
+<p>Continue by selecting <strong>Attach policies directly</strong>, find &ldquo;kmsonlyread,&rdquo; and click <strong>Next</strong>.</p>
+<p>Finally, click <strong>Create</strong>.</p>
+<p><img alt="iam" src="../../images/2.prerequisite/2.2/2.2.4/chonKMSonly_next_chonCreate.png"></p>
+<p>Successfully created!</p>
+<p><img alt="iam" src="../../images/2.prerequisite/2.2/2.2.4/dataothanhcong_sueronlyread.png"></p>
+<p>Repeat the steps to create another user.</p>
+<p>Assign a name for the user, in this case, &ldquo;userlock.&rdquo;</p>
+<p>Then select <strong>I want to create an IAM user</strong>, set the <strong>Password</strong>, and click <strong>Next</strong>.</p>
+<p><img alt="iam" src="../../images/2.prerequisite/2.2/2.2.5/datteb_chonIwant_datpass_chonNExt_2.png"></p>
+<p>Continue by selecting <strong>Attach policies directly</strong>, find &ldquo;AmazonS3ReadOnlyAccess,&rdquo; and click <strong>Next</strong>.</p>
+<p>Finally, click <strong>Create</strong>.</p>
+<p><img alt="iam" src="../../images/2.prerequisite/2.2/2.2.5/chons3read_next_chonCreate_2.png"></p>
+<p>Successfully created!</p>
+<p><img alt="iam" src="../../images/2.prerequisite/2.2/2.2.5/dataothanhcong2user.png"></p>
+<p>We will now proceed to the next preparation steps!</p>
+
 
 
 
@@ -983,19 +941,19 @@ In the left navigation bar, click <strong>Policies</strong>, then select <strong
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="../../js/clipboard.min.js?1733591213"></script>
-    <script src="../../js/perfect-scrollbar.min.js?1733591213"></script>
-    <script src="../../js/perfect-scrollbar.jquery.min.js?1733591213"></script>
-    <script src="../../js/jquery.sticky.js?1733591213"></script>
-    <script src="../../js/featherlight.min.js?1733591213"></script>
-    <script src="../../js/highlight.pack.js?1733591213"></script>
+    <script src="../../js/clipboard.min.js?1733591985"></script>
+    <script src="../../js/perfect-scrollbar.min.js?1733591985"></script>
+    <script src="../../js/perfect-scrollbar.jquery.min.js?1733591985"></script>
+    <script src="../../js/jquery.sticky.js?1733591985"></script>
+    <script src="../../js/featherlight.min.js?1733591985"></script>
+    <script src="../../js/highlight.pack.js?1733591985"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="../../js/modernizr.custom-3.6.0.js?1733591213"></script>
-    <script src="../../js/learn.js?1733591213"></script>
-    <script src="../../js/hugo-learn.js?1733591213"></script>
+    <script src="../../js/modernizr.custom-3.6.0.js?1733591985"></script>
+    <script src="../../js/learn.js?1733591985"></script>
+    <script src="../../js/hugo-learn.js?1733591985"></script>
 
-    <link href="../../mermaid/mermaid.css?1733591213" rel="stylesheet" />
-    <script src="../../mermaid/mermaid.js?1733591213"></script>
+    <link href="../../mermaid/mermaid.css?1733591985" rel="stylesheet" />
+    <script src="../../mermaid/mermaid.js?1733591985"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
